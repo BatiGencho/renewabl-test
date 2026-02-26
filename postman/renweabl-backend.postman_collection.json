@@ -1,0 +1,162 @@
+{
+  "info": {
+    "name": "Energy Readings API",
+    "description": "REST API for querying timeseries energy data with aggregation and date filters",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:50051"
+    },
+    {
+      "key": "api_prefix",
+      "value": "/api/wire/v1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          }
+        },
+        {
+          "name": "Version",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/version",
+              "host": ["{{base_url}}"],
+              "path": ["version"]
+            }
+          }
+        },
+        {
+          "name": "Metrics (Prometheus)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/metrics",
+              "host": ["{{base_url}}"],
+              "path": ["metrics"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Energy",
+      "item": [
+        {
+          "name": "Aggregate — Hourly (full range)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"aggregationType\": \"hourly\",\n\t\"dateFrom\": \"2025-01-01T00:00:00Z\",\n\t\"dateTo\": \"2025-01-02T00:00:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/energy/aggregate",
+              "host": ["{{base_url}}{{api_prefix}}"],
+              "path": ["energy", "aggregate"]
+            },
+            "description": "Get hourly energy readings for January 1st, 2025."
+          }
+        },
+        {
+          "name": "Aggregate — Day of Month (Q1 2025)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"aggregationType\": \"day_of_month\",\n\t\"dateFrom\": \"2025-01-01T00:00:00Z\",\n\t\"dateTo\": \"2025-04-01T00:00:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/energy/aggregate",
+              "host": ["{{base_url}}{{api_prefix}}"],
+              "path": ["energy", "aggregate"]
+            },
+            "description": "Get daily energy totals for Q1 2025."
+          }
+        },
+        {
+          "name": "Aggregate — Monthly (full year)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"aggregationType\": \"monthly\",\n\t\"dateFrom\": \"2025-01-01T00:00:00Z\",\n\t\"dateTo\": \"2026-01-01T00:00:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/energy/aggregate",
+              "host": ["{{base_url}}{{api_prefix}}"],
+              "path": ["energy", "aggregate"]
+            },
+            "description": "Get monthly energy totals for the full year 2025."
+          }
+        },
+        {
+          "name": "Aggregate — Monthly (no date filter)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"aggregationType\": \"monthly\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/energy/aggregate",
+              "host": ["{{base_url}}{{api_prefix}}"],
+              "path": ["energy", "aggregate"]
+            },
+            "description": "Get monthly energy totals for all available data (no date filter)."
+          }
+        },
+        {
+          "name": "Query History",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}{{api_prefix}}/energy/history",
+              "host": ["{{base_url}}{{api_prefix}}"],
+              "path": ["energy", "history"]
+            },
+            "description": "Returns the last 10 aggregation queries with their filter parameters."
+          }
+        }
+      ]
+    }
+  ]
+}
